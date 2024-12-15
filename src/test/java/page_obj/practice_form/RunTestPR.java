@@ -1,4 +1,4 @@
-package page_obj.practiceForm;
+package page_obj.practice_form;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;

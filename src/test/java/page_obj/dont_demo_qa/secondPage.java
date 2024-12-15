@@ -1,4 +1,4 @@
-package page_obj.dontDemoQa;
+package page_obj.dont_demo_qa;
 
 import static com.codeborne.selenide.Selenide.$$;
 

@@ -1,4 +1,4 @@
-package page_obj.practiceForm;
+package page_obj.practice_form;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
