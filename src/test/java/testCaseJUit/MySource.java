@@ -16,9 +16,8 @@ public class MySource {
    static void setUp(){
         Configuration.browserSize="1920x1980";
         Configuration.timeout=5000;
-
-
     }
+
     @BeforeEach
     void openUrl(){
         Selenide.open("https://eda.yandex.ru");
