@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.opencsv.CSVReader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import selenide_file.modelJson.Glossary;
+import selenide_file.modelJson.JsonDypose;
 
 import java.io.*;
 import java.util.List;
@@ -19,7 +21,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FilesParseTest {
-
+    Gson mainGson = new Gson();
     ClassLoader cl = FilesParseTest.class.getClassLoader();
 
     @BeforeAll
@@ -87,5 +89,36 @@ public class FilesParseTest {
             assertThat(jsonObject.get("glossary").getAsJsonObject().get("flag").getAsBoolean()).isTrue();
         }
     }
-    int i = 0;
+
+    @Test
+    void jsonParseClass() throws Exception {
+        Gson gson = new Gson();
+        try (InputStream resource = cl.getResourceAsStream("json/glossary.json");
+             InputStreamReader reader = new InputStreamReader(resource);
+        ) {
+            Glossary jsonObject = gson.fromJson(reader, Glossary.class);//универсальный класс
+            assertThat(jsonObject).isNotNull();
+            assertThat(jsonObject.title).isEqualTo("example glossary");
+            assertThat(jsonObject.glossDiv.glossList.glossEntry.id).isEqualTo("SGML");
+            assertThat(jsonObject.glossDiv.glossList.glossEntry.glossDef.glossSeeAlso[0]).isEqualTo("GML");
+
+        }
+    }
+
+    @Test
+    void jsonParseMyJsonPojo() throws Exception {
+        try (InputStream resource = cl.getResourceAsStream("json/dypose.json");
+             InputStreamReader reader = new InputStreamReader(resource);
+        ) {
+            JsonDypose jsonDypose = mainGson.fromJson(reader, JsonDypose.class);
+            assertThat(jsonDypose).isNotNull();
+            assertThat(jsonDypose.dypose.biography.tall).isTrue();
+            assertThat(jsonDypose.dypose.biography.work.aqaStack).contains("junit5");
+            assertThat(jsonDypose.dypose.biography.work.aqaStack1.get(0)).isEqualTo("java");
+
+        }
+
+
+    }
+
 }
