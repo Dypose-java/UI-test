@@ -43,3 +43,14 @@ test {
     //systemProperty "chromeoptions.prefs","intl.accept_languages=en"
     useJUnitPlatform()
 }
+
+
+tasks.register('console', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("console")
+    }
+}
