@@ -54,3 +54,13 @@ tasks.register('console', Test) {
         includeTags("console")
     }
 }
+
+tasks.register('tread', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("tread")
+    }
+}
