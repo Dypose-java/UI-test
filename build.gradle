@@ -55,12 +55,12 @@ tasks.register('console', Test) {
     }
 }
 
-tasks.register('tread', Test) {
+tasks.register('selenoid', Test) {
     testLogging {
         events "passed", "skipped", "failed", "standardOut", "standardError"
         exceptionFormat "full"
     }
     useJUnitPlatform {
-        includeTags("tread")
+        includeTags("selenoid")
     }
 }

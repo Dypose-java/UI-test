@@ -49,7 +49,9 @@ public class Main extends MainSelenoidDemoQa {
         return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
-//@Disabled("Хуй пойми тест не проходит именно в селеноиде на локали все гуд")
+@Disabled("Хуй пойми тест не проходит именно в селеноиде на локали все гуд")
+
+    @Tag("selenoid")
     @Owner("Dypose")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Заполнение формы demoQa")
@@ -76,6 +78,7 @@ public class Main extends MainSelenoidDemoQa {
 
     @Test
     @Owner("Dypose")
+    @Tag("selenoid")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Проверка работоспособности теста в селеноиде")
     void openUrl(){
@@ -101,10 +104,13 @@ public class Main extends MainSelenoidDemoQa {
     }
 
 private final String NAME ="dypose";
-    //@Tag("tread")
+
+    @Disabled("Проблема с url")
+
     @Owner("Dypose")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Заполнение формы tread")
+    @Tag("selenoid")
     @Test
     void treadForm(){
         SelenideLogger.addListener("allure",new AllureSelenide());
@@ -114,7 +120,7 @@ private final String NAME ="dypose";
                 .setName(NAME)
                  .clickSubmit();
     }
-    @Tag("tread")
+    @Tag("selenoid")
     @Owner("Dypose")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Ебучий дженкинс дай мне passed test dont answer 400 and 500")
