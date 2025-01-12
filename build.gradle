@@ -87,5 +87,14 @@ tasks.register('example_tags', Test) {
         excludeTags("excludeTags")//теги которые не должны быть в таске
     }
 }
-
+tasks.register('property_test', Test) {
+    systemProperties(System.getProperties())
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("setUp","exampleProrirtiesTest")
+    }
+}
 
