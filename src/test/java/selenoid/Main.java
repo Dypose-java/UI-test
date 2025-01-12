@@ -26,7 +26,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class Main extends MainSelenoid2 {
+public class Main extends MainSelenoidDemoQa {
     @BeforeEach
     void baseUrl(){
         //Configuration.baseUrl="https://demoqa.com";
@@ -99,8 +99,12 @@ public class Main extends MainSelenoid2 {
         });
 
     }
+
 private final String NAME ="dypose";
     @Tag("tread")
+    @Owner("Dypose")
+    @Severity(SeverityLevel.BLOCKER)
+    @DisplayName("Заполнение формы tread")
     @Test
     void treadForm(){
          new TreadUiForm("http://85.192.34.140:8081/")
@@ -108,11 +112,6 @@ private final String NAME ="dypose";
                 .selectElementCard("Practice Form")
                 .setName(NAME)
                  .clickSubmit();
-
-
-
-
-
     }
 
 

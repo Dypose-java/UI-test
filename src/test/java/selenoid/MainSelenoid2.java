@@ -1,7 +1,10 @@
 package selenoid;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -36,5 +39,9 @@ public class MainSelenoid2 {
       Configuration.browserCapabilities =options;
       Configuration.browserSize="1980x1600";
       Configuration.remote ="http://127.0.0.1:8080/wd/hub";
+  }
+  @BeforeEach
+    void allure(){
+      SelenideLogger.addListener("allure",new AllureSelenide());
   }
 }
