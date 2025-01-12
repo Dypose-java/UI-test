@@ -101,18 +101,34 @@ public class Main extends MainSelenoidDemoQa {
     }
 
 private final String NAME ="dypose";
-    @Tag("tread")
+    //@Tag("tread")
     @Owner("Dypose")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Заполнение формы tread")
     @Test
     void treadForm(){
+        SelenideLogger.addListener("allure",new AllureSelenide());
          new TreadUiForm("http://85.192.34.140:8081/")
                 .selectCard("Forms")
                 .selectElementCard("Practice Form")
                 .setName(NAME)
                  .clickSubmit();
     }
+    @Tag("tread")
+    @Owner("Dypose")
+    @Severity(SeverityLevel.BLOCKER)
+    @DisplayName("Ебучий дженкинс дай мне passed test dont answer 400 and 500")
+    @Test
+    void jenkinsTest(){
+        SelenideLogger.addListener("allure",new AllureSelenide());
+        step("open url",()->{
+            Selenide.open("https://translate.yandex.ru/");
+        });
+        step("add value in area",()->{
+            $("#fakeArea").setValue("52");
+            takeScreenshot();
+        });
 
+    }
 
 }
