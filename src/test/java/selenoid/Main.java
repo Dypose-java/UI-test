@@ -44,10 +44,6 @@ public class Main extends MainSelenoidDemoQa {
     private static final String SPORTS = Hobbies.SPORTS.getValue();
     private static final String ADD =fakerEng.address().fullAddress();
 
-    @Attachment(value = "Screenshot",type = "image/png",fileExtension = "png")
-    static public byte[] takeScreenshot(){
-        return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
-    }
 
 @Disabled("Хуй пойми тест не проходит именно в селеноиде на локали все гуд")
 
@@ -86,19 +82,19 @@ public class Main extends MainSelenoidDemoQa {
         SelenideLogger.addListener("allure",new AllureSelenide());
         step("Open url",()->{
             Selenide.open("https://demoqa.com/");
-            takeScreenshot();
+
         });
         step("search elements form and click",()->{
             $(byText("Elements")).click();
-            takeScreenshot();
+
         });
         step("search radio button and click",()->{
             $(byText("Radio Button")).click();
-            takeScreenshot();
+
         });
         step("assertions title radio button",()->{
             $(".text-center").shouldHave(text("Radio Button"));
-            takeScreenshot();
+
         });
 
     }
@@ -132,7 +128,7 @@ private final String NAME ="dypose";
         });
         step("add value in area",()->{
             $("#fakeArea").setValue("52");
-            takeScreenshot();
+
         });
 
     }
