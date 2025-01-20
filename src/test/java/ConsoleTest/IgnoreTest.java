@@ -11,7 +11,6 @@ public class IgnoreTest {
     void test1(){
         Assertions.assertTrue(false);
 
-
     }
     @Test
     @Disabled("edit")

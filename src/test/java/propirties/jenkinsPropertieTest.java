@@ -15,7 +15,6 @@ public class jenkinsPropertieTest extends MainSetUp {
     @Tag("exampleProrirtiesTest")
     void exampleProrirtiesTest(){
         String name ="dypose";
-        SelenideLogger.addListener("allure",new AllureSelenide());
         step("open url",()->{
             Selenide.open(System.getProperty("urlTest","vk.ru"))
             ;});
