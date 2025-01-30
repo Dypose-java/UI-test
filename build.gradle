@@ -1,50 +1,76 @@
 plugins {
     id 'java-library'//язык
     id 'io.qameta.allure' version '2.12.0'
+    id "io.freefair.lombok" version "8.12"
 }
+def
+        versionSelenide = "7.7.0",
+        versionJupiter = "5.11.0",
+        versionJavafaker = "1.0.2",
+        versionAssertj = "3.26.3",
+        versionSlf4j = "2.0.14",
+        versionGoogleGson = "2.10.1",
+        versionAllure = "2.29.0",
+        versionWebDriverManager = "5.9.2",
+        versionOwner = "1.0.4",
+        versionRestAssured = "5.4.0",
+        versionJacksonDatabind = "2.18.2"
+
 allure {
     report {
-        version.set("2.19.0")
+        version.set(versionAllure)
     }
-    adapter { // отвечает за появление папочки build/allure-results
-        aspectjWeaver.set(true) //обработка аннотации @Step
+    adapter {
+        aspectjWeaver.set(true)
         frameworks {
-            junit5 { //название фреймворка
-                adapterVersion.set("2.19.0") //версия интеграции фреймворка и Allure
-               // adapterVersion = '2.19.0'
+            junit5 {
+                adapterVersion.set(versionAllure)
             }
         }
     }
 }
 repositories {
-    mavenCentral()//готовый инструменталий
+    mavenCentral()
 }
-compileTestJava{
-    options.encoding='UTF-8'
+compileTestJava {
+    options.encoding = 'UTF-8'
 }
 
+
 dependencies {
-    testImplementation (
-            "com.codeborne:selenide:7.4.0",//
-            "org.junit.jupiter:junit-jupiter:5.11.0",
-            "com.github.javafaker:javafaker:1.0.2",
-             'org.assertj:assertj-core:3.26.3',
-            "org.slf4j:slf4j-simple:2.0.14",
-            'com.google.code.gson:gson:2.10.1',
-            'io.qameta.allure:allure-selenide:2.29.1',
+    testImplementation(
+            "com.codeborne:selenide:$versionSelenide",//
+            "org.junit.jupiter:junit-jupiter:$versionJupiter",
+            "com.github.javafaker:javafaker:$versionJavafaker",
+            "org.assertj:assertj-core:$versionAssertj",
+            "org.slf4j:slf4j-simple:$versionSlf4j",
+            "com.google.code.gson:gson:$versionGoogleGson",
+            "io.qameta.allure:allure-selenide:$versionAllure",
+            "io.github.bonigarcia:webdrivermanager:$versionWebDriverManager",
+
+            "org.aeonbits.owner:owner:$versionOwner",
+            "io.qameta.allure:allure-rest-assured:$versionAllure",
+            "io.rest-assured:rest-assured:$versionRestAssured",
+            "com.fasterxml.jackson.core:jackson-databind:$versionJacksonDatabind",
 
             'com.codeborne:pdf-test:1.5.0',
             'com.codeborne:xls-test:1.4.3',
             'com.opencsv:opencsv:5.7.1'
 
-    )//test
+    )
 
 }
 
-
-test {
-    //systemProperty "chromeoptions.prefs","intl.accept_languages=en"
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
     useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
 }
 
 
@@ -86,7 +112,7 @@ tasks.register('example_tags', Test) {
         exceptionFormat "full"
     }
     useJUnitPlatform {
-        includeTags("property","property1")
+        includeTags("property", "property1")
         excludeTags("excludeTags")//теги которые не должны быть в таске
     }
 }
@@ -97,7 +123,17 @@ tasks.register('property_test', Test) {
         exceptionFormat "full"
     }
     useJUnitPlatform {
-        includeTags("setUp","exampleProrirtiesTest")
+        includeTags("setUp", "exampleProrirtiesTest")
     }
 }
 
+tasks.register('testWebDriverProvider', Test) {
+    systemProperties(System.getProperties())
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("testWebDriverProvider")
+    }
+}
