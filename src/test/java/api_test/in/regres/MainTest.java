@@ -3,6 +3,8 @@ import api_test.in.regres.help.QueryConstants;
 import api_test.in.regres.pojo.Auth.ResponseUser;
 import api_test.in.regres.pojo.Auth.User;
 import api_test.in.regres.pojo.list_users.Data;
+import api_test.in.regres.pojo.list_users.DataLombok;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,8 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static helpers.CustomApiListiner.withCustomTemplate;
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.*;
+import static java.lang.Character.toChars;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -93,11 +97,13 @@ public class MainTest implements QueryConstants {
     }
 
     @Test
-    void checkRegUsingPojoClass() {
+    void checkRegUsingPojoClassAndAllureReport() {
         User user = new User("eve.holt@reqres.in","cityslicka");
         ResponseUser expectedRes= new ResponseUser("4","QpwL5tke4Pnpja7X4");
+
         ResponseUser responseUser =given()
                 .log().all()
+                .filter(new AllureRestAssured())
                 .contentType(JSON)
                 .body(user)
                 .when()
@@ -109,6 +115,26 @@ public class MainTest implements QueryConstants {
 
         Assertions.assertEquals(expectedRes.getId(),responseUser.getId());
         Assertions.assertEquals(expectedRes.getToken(),responseUser.getToken());
+    }
+    @Test
+    void checkRegUserUsingCustomAllureTest(){
+       List<DataLombok>  dataLombokList = given()
+               .filter(withCustomTemplate())
+                .contentType(JSON)
+                .get(GET_LIST_USER)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().jsonPath().getList("data", DataLombok.class);
+       
+        boolean isAvatarEndsJpg = dataLombokList.stream().
+                map(DataLombok::getAvatar).allMatch(el -> el.endsWith("image.jpg"));
+        boolean isAvatarContainsId = dataLombokList.stream().
+                allMatch(el -> el.getAvatar().contains(String.valueOf(el.getId())));
+
+        assertThat(isAvatarEndsJpg).isTrue();
+        assertThat(isAvatarContainsId).isTrue();
+
     }
 }
 
