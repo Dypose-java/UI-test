@@ -20,6 +20,8 @@ import static io.restassured.http.ContentType.*;
 import static java.lang.Character.toChars;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
+import static specification.MainSpec.requestListUser;
+import static specification.MainSpec.responseListUser;
 
 public class MainTest implements QueryConstants {
 
@@ -119,6 +121,9 @@ public class MainTest implements QueryConstants {
     @Test
     void checkRegUserUsingCustomAllureTest(){
        List<DataLombok>  dataLombokList = given()
+               .log().uri()
+               .log().headers()
+               .log().body()
                .filter(withCustomTemplate())
                 .contentType(JSON)
                 .get(GET_LIST_USER)
@@ -127,6 +132,22 @@ public class MainTest implements QueryConstants {
                 .statusCode(200)
                 .extract().jsonPath().getList("data", DataLombok.class);
        
+        boolean isAvatarEndsJpg = dataLombokList.stream().
+                map(DataLombok::getAvatar).allMatch(el -> el.endsWith("image.jpg"));
+        boolean isAvatarContainsId = dataLombokList.stream().
+                allMatch(el -> el.getAvatar().contains(String.valueOf(el.getId())));
+
+        assertThat(isAvatarEndsJpg).isTrue();
+        assertThat(isAvatarContainsId).isTrue();
+
+    }
+    @Test
+    void checkRegUserUsingSpecification(){
+        List<DataLombok>  dataLombokList = given(requestListUser)
+                .get(GET_LIST_USER)
+                .then()
+                .spec(responseListUser)
+                .extract().jsonPath().getList("data", DataLombok.class);
         boolean isAvatarEndsJpg = dataLombokList.stream().
                 map(DataLombok::getAvatar).allMatch(el -> el.endsWith("image.jpg"));
         boolean isAvatarContainsId = dataLombokList.stream().
