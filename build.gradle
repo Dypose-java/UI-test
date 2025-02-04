@@ -73,4 +73,14 @@ tasks.withType(Test) {
     }
 }
 
+tasks.register('jenkins', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("jenkins")
+    }
+}
+
 

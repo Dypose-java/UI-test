@@ -20,8 +20,8 @@ import static io.restassured.http.ContentType.*;
 import static java.lang.Character.toChars;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
-import static specification.MainSpec.requestListUser;
-import static specification.MainSpec.responseListUser;
+import static specification.ListUserSpec.requestListUser;
+import static specification.ListUserSpec.responseListUser;
 
 public class MainTest implements QueryConstants {
 
