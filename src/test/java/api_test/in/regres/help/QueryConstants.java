@@ -1,5 +1,8 @@
 package api_test.in.regres.help;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public interface QueryConstants{
     String GET_LIST_USER="api/users?page=2",
             GET_SINGLE_USER="/api/users/2",
@@ -12,10 +15,11 @@ public interface QueryConstants{
             DELETE_DELETE="/api/users/2",
             POST_REGISTER_SUCCESSFUL="/api/register",
             POST_REGISTER_UNSUCCESSFUL="/api/register",
-            POST_LOGIN_SUCCESSFUL="/api/login",POST_LOGIN_UNSUCCESSFUL="/api/login";
+            POST_LOGIN_SUCCESSFUL="/api/login",
+            POST_LOGIN_UNSUCCESSFUL="/api/login";
+
+
+
 }
-class fsfs implements QueryConstants{
-    public static void main(String[] args) {
-        System.out.println(PATH_UPDATE);
-    }
-}
+
+

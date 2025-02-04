@@ -1,7 +1,10 @@
 package api_test;
 
+import api_test.in.regres.help.LocalDate;
+import api_test.in.regres.help.QueryConstants;
 import api_test.in.regres.pojo.SingleUser;
 import api_test.in.regres.pojo.create.Response;
+import api_test.in.regres.pojo.create.UpdateResponse;
 import api_test.in.regres.pojo.create.User;
 import api_test.in.regres.pojo.list_resource.Resource;
 import io.qameta.allure.*;
@@ -10,10 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import static api_test.in.regres.help.QueryConstants.*;
 import static io.qameta.allure.Allure.step;
 import static io.qameta.allure.SeverityLevel.BLOCKER;
 import static io.qameta.allure.SeverityLevel.NORMAL;
@@ -27,7 +28,9 @@ import static org.hamcrest.Matchers.*;
 @Epic("Api")
 @Tag("jenkins")
 @Feature("reqres.in")
-public class Main {
+public class Main implements QueryConstants, LocalDate {
+
+
     @BeforeAll
     public static void setUp() {
         baseURI = "https://reqres.in/";
@@ -52,14 +55,13 @@ public class Main {
                 .extract().as(Response.class);
 
         assertThat(token).isNotNull();
-
-        String dateUser = token.getCreatedAt().substring(0, 10);
-        LocalDate loc = LocalDate.now();
-        //LocalDate localDate = loc.minusDays(1);
+        //разница в 3 ч и секунды разные
+        String dateUserResponse = token.getCreatedAt().substring(0,16);
 
         assertThat(user.getName()).isEqualTo(token.getName());
         assertThat(user.getJob()).isEqualTo(token.getName());
-        assertThat(loc).isEqualTo(dateUser);
+        assertThat(DATE_LOCAL_MIN_3_HOURS_AND_SEC).isEqualTo(dateUserResponse);
+
     }
 
     @Story("singleUser")
@@ -123,5 +125,20 @@ public class Main {
         assertThat(list.stream().map(Resource.Data::getId).map(Integer::parseInt).allMatch(el->el>0)).isTrue();
         assertThat(list.stream().map(Resource.Data::getYear).allMatch(el->el.length()==4)).isTrue();
 
+    }
+    @Test
+    void putUpdateUser(){
+        User expectedUser = new User("morpheus","zion resident");
+        UpdateResponse responseUser = given(mainRequestSpecification())
+                .body(expectedUser)
+                .when()
+                .put(PUT_UPDATE)
+                .then().spec(mainResponseSpecification(200))
+                .extract().as(UpdateResponse.class);
+
+        assertThat(responseUser).isNotNull();
+        assertThat(expectedUser.getName()).isEqualTo(responseUser.getName());
+        assertThat(expectedUser.getJob()).isEqualTo(responseUser.getJob());
+        assertThat(DATE_LOCAL_MIN_3_HOURS_AND_SEC).isEqualTo(responseUser.getUpdatedAt().substring(0,16));
     }
 }
