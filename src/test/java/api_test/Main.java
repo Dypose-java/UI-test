@@ -55,11 +55,11 @@ public class Main {
 
         String dateUser = token.getCreatedAt().substring(0, 10);
         LocalDate loc = LocalDate.now();
-        LocalDate localDate = loc.minusDays(1);
+        //LocalDate localDate = loc.minusDays(1);
 
         assertThat(user.getName()).isEqualTo(token.getName());
         assertThat(user.getJob()).isEqualTo(token.getName());
-        assertThat(localDate).isEqualTo(dateUser);
+        assertThat(loc).isEqualTo(dateUser);
     }
 
     @Story("singleUser")
