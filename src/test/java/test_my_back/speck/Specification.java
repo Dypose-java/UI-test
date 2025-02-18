@@ -1,6 +1,5 @@
 package test_my_back.speck;
 
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -12,7 +11,7 @@ import static io.restassured.RestAssured.with;
 
 public class Specification {
 
-    public static RequestSpecification mainResponse(ContentType contentType){
+    public static RequestSpecification mainRequest(ContentType contentType){
         return with()
                 .log().uri()
                 .log().headers()
