@@ -1,87 +1,81 @@
-plugins {
-    id 'java-library'//язык
-    id 'io.qameta.allure' version '2.12.0'
-    id "io.freefair.lombok" version "8.12"
-}
-def
-        versionSelenide = "7.7.0",
-        versionJupiter = "5.11.0",
-        versionJavafaker = "1.0.2",
-        versionAssertj = "3.26.3",
-        versionSlf4j = "2.0.14",
-        versionGoogleGson = "2.10.1",
-        versionAllure = "2.29.0",
-        versionWebDriverManager = "5.9.2",
-        versionOwner = "1.0.4",
-        versionRestAssured = "5.4.0",
-        versionJacksonDatabind = "2.18.2"
-
-allure {
-    report {
-        version.set(versionAllure)
-    }
-    adapter {
-        aspectjWeaver.set(true)
-        frameworks {
-            junit5 {
-                adapterVersion.set(versionAllure)
-            }
+buildscript {
+    repositories {
+        maven {
+            url "http://smartbearsoftware.com/repository/maven2/"
+            allowInsecureProtocol = true
         }
+
     }
+}
+
+plugins {
+   id 'java'
+    id "io.github.daggerok.soapui-testrunner" version "5.3.0-5"
 }
 
 repositories {
     mavenCentral()
 }
-compileTestJava {
-    options.encoding = 'UTF-8'
-}
 
+configurations {
+    jaxb
+}
 
 dependencies {
-    testImplementation(
-            "com.codeborne:selenide:$versionSelenide",//
-            "org.junit.jupiter:junit-jupiter:$versionJupiter",
-            "com.github.javafaker:javafaker:$versionJavafaker",
-            "org.assertj:assertj-core:$versionAssertj",
-            "org.slf4j:slf4j-simple:$versionSlf4j",
-            "com.google.code.gson:gson:$versionGoogleGson",
-            "io.qameta.allure:allure-selenide:$versionAllure",
-            "io.github.bonigarcia:webdrivermanager:$versionWebDriverManager",
+    jaxb("org.glassfish.jaxb:jaxb-xjc:3.0.2")
 
-            "org.aeonbits.owner:owner:$versionOwner",
-            "io.qameta.allure:allure-rest-assured:$versionAllure",
-            "io.rest-assured:rest-assured:$versionRestAssured",
-            "com.fasterxml.jackson.core:jackson-databind:$versionJacksonDatabind",
-
-            'com.codeborne:pdf-test:1.5.0',
-            'com.codeborne:xls-test:1.4.3',
-            'com.opencsv:opencsv:5.7.1'
-
-    )
-
+    implementation 'javax.xml.bind:jaxb-api:2.3.0'
+    implementation 'com.sun.xml.bind:jaxb-core:2.3.0'
+    implementation 'com.sun.xml.bind:jaxb-impl:2.3.0'
+    implementation 'javax.activation:activation:1.1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
+    implementation 'javax.xml.soap:javax.xml.soap-api:1.4.0'
+    implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.1'
+    testImplementation 'io.rest-assured:rest-assured:4.2.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'org.codehaus.groovy:groovy:3.0.8'
+    testImplementation 'org.assertj:assertj-core:3.26.0'
+}
+apply plugin: "io.github.daggerok.soapui-runner"
+testrunner {
+    projectFile = 'qa-guru-soapui-example-soapui-project.xml'
+    outputFolder = 'build/soapui/'
 }
 
-tasks.withType(Test) {
-    systemProperties(System.getProperties())
-    useJUnitPlatform()
-
-    testLogging {
-        lifecycle {
-            events "started", "skipped", "failed", "standard_error", "standard_out"
-            exceptionFormat "short"
+sourceSets {
+    main {
+        java {
+            srcDir 'build/generated-sources/jaxb'
         }
     }
 }
 
-tasks.register('jenkins', Test) {
-    testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-        exceptionFormat "full"
-    }
-    useJUnitPlatform {
-        includeTags("jenkins")
+task genJaxb {
+    ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
+    ext.schema = "src/test/resources/countries.xsd"
+
+    outputs.dir sourcesDir
+
+    doLast() {
+        project.ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+
+            xjc(destdir: sourcesDir, schema: schema) {
+                arg(value: "-wsdl")
+                produces(dir: sourcesDir, includes: "**/*.java")
+            }
+        }
     }
 }
 
+compileJava.dependsOn genJaxb
+
+test {
+    useJUnitPlatform()
+}
 
