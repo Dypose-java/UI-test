@@ -93,7 +93,5 @@ public class Main {
         LocalDateTime date = LocalDateTime.now();
         date.getDayOfMonth();
         System.out.println(createUser.getDate());
-
-
     }
 }

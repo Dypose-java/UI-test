@@ -84,4 +84,12 @@ tasks.register('jenkins', Test) {
     }
 }
 
-
+tasks.register('example', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("docs.spacexdata.com")
+    }
+}
