@@ -31,5 +31,6 @@ public class Main {
     @Test
     void check(){
         UserSW build = UserSW.builder().code("812592").phone("+7(968)845-06-92").build();
+
     }
 }
