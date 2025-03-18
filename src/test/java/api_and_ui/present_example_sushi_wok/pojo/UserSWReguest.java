@@ -3,11 +3,10 @@ package api_and_ui.present_example_sushi_wok.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @Builder
-public class UserSW {
+public class UserSWReguest {
     public String phone,code;
 }
