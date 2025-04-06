@@ -15,7 +15,8 @@ import org.openqa.selenium.Cookie;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
 
 
@@ -100,9 +101,12 @@ public class Main {
 
     @Test
     void fsfsdf() {
-        WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("connect.sid","s%3AhWBay4JCw8MSE56ftWyd9RTTkAky5evA.vR0qmDZ3J2O%2FDP7sbgZLaLGfOLV8qFgPn88eZGXN7Pk; Path=/; Expires=Wed, 17 Sep 2025 16:41:07 GMT; HttpOnly"));
         open("/img/1b64cbc40cfb8633bf476f3dc750916a/500x500");
-        open("/msk/profile/");
+        WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("connect.sid","s%3AhWBay4JCw8MSE56ftWyd9RTTkAky5evA.vR0qmDZ3J2O%2FDP7sbgZLaLGfOLV8qFgPn88eZGXN7Pk"));
+        open("msk/profile/");
         System.out.println();
+     /*   $$(".profile__action-container button").first().click();
+        $(".auth-page p").shouldHave(text("Вход/Регистрация"));
+        System.out.println();*/
     }
 }
