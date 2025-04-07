@@ -171,3 +171,5 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/gradle,intellij,java
 /notifications/config.json
 /notifications/telegram.txt
+/local/Cookie/SushiWok.txt
+api_and_ui/sushiWok.properties

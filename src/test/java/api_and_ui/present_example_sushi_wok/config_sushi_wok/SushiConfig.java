@@ -25,5 +25,8 @@ public interface SushiConfig extends Config{
     @Key("sw.password")
     String getPas();
 
+    @Key("sw.cookie")
+String getCokie();
+
     SushiConfig CONFIG = ConfigFactory.create(SushiConfig.class,System.getProperties());
 }
