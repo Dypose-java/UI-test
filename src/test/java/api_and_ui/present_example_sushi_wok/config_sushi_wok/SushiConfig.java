@@ -14,19 +14,22 @@ import static org.aeonbits.owner.Config.*;
 })
 public interface SushiConfig extends Config{
     @Key("sw.urlApi")
+    @DefaultValue("https://sushiwok.ru/")
     String getUrlApi();
 
     @Key("sw.urlUI")
+    @DefaultValue("https://sushiwok.ru/")
     String getUrlUI();
 
     @Key("sw.login")
+    @DefaultValue("89688450693")
     String getLog();
 
     @Key("sw.password")
+    @DefaultValue("1111")
     String getPas();
 
     @Key("sw.cookie")
-String getCokie();
-
+    String getCokie();
     SushiConfig CONFIG = ConfigFactory.create(SushiConfig.class,System.getProperties());
 }
