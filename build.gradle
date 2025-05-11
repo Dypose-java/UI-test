@@ -39,7 +39,7 @@ compileTestJava {
 
 dependencies {
     testImplementation(
-            "com.codeborne:selenide:$versionSelenide",//
+            "com.codeborne:selenide:$versionSelenide",
             "org.junit.jupiter:junit-jupiter:$versionJupiter",
             "com.github.javafaker:javafaker:$versionJavafaker",
             "org.assertj:assertj-core:$versionAssertj",
