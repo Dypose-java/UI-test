@@ -1,8 +1,4 @@
-package api_test.firstApi;
-
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
-import org.hamcrest.Matchers;
+﻿package api_test.firstApi;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -70,5 +66,9 @@ public class Main {
                 log().all()
                 .statusCode(200).
                 body("value.ready",is(true));
+    }
+
+    public static void main(String[] args) {
+        System.out.println("привет");
     }
 }
