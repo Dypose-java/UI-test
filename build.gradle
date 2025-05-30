@@ -52,6 +52,7 @@ dependencies {
             "io.qameta.allure:allure-rest-assured:$versionAllure",
             "io.rest-assured:rest-assured:$versionRestAssured",
             "com.fasterxml.jackson.core:jackson-databind:$versionJacksonDatabind",
+            "io.appium:java-client:9.3.0",
 
             'com.codeborne:pdf-test:1.5.0',
             'com.codeborne:xls-test:1.4.3',

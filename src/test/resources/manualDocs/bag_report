@@ -1,0 +1,26 @@
+example
+--id
+id:52
+
+--Severity
+Blocker
+
+--title
+Не грузится видео
+
+--step
+открыть url https://www.youtube.com/watch?v=5-jZ9Da7h6Q&ab_channel=ITPUNK
+нажать воспроизвести видео
+
+--ожидаемый результат
+видео должно воспроизводится
+
+--фактический
+не воспроизводится
+
+--attach
+логи,фото,видео
+
+--Окружение
+
+--Owner
