@@ -14,7 +14,7 @@ import static io.qameta.allure.Allure.step;
 
 
 public class SearchTest extends TestBaseQa {
-Severity
+
     @Test
     void successfulSearchTest() {
        WikipediaPage
